@@ -1,0 +1,53 @@
+# без ООП
+# нет проверки быхода за игровое поле
+map = [' ' for x in range(9)]
+
+# Функция отрисовки игрового поля
+def print_map():
+    row1 = '|{}|{}|{}|'.format(map[0], map[1], map[2])
+    row2 = '|{}|{}|{}|'.format(map[3], map[4], map[5])
+    row3 = '|{}|{}|{}|'.format(map[6], map[7], map[8])
+    print()
+    print(row1)
+    print(row2)
+    print(row3)
+    print()
+
+# Функция проверки победы
+def check_win(player):
+    win_combo = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]
+    for combo in win_combo:
+        if all(map[i] == player for i in combo):
+            return True
+    return False
+
+# Функция игры
+def tic_tac_toe():
+    player1 = 'X'
+    player2 = 'O'
+    current_player = player1
+    game_over = False
+    
+    while not game_over:
+        print_map()
+        choice = int(input("Выберите позицию от 1 до 9: ").strip())
+        if map[choice-1] == ' ':
+            map[choice-1] = current_player
+            if check_win(current_player):
+                print_map()
+                print("Победил игрок ", current_player)
+                game_over = True
+            elif all(x != ' ' for x in map):
+                print_map()
+                print("Ничья")
+                game_over = True
+            else:
+                current_player = player2 if current_player == player1 else player1
+        else:
+            print("Эта позиция уже занята!")
+    if input("Хотите сыграть еще раз? (y/n)").lower() == 'y':
+        tic_tac_toe()
+
+# Запуск игры, как крутой программист 
+if __name__ == '__main__':
+    tic_tac_toe()
